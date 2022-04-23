@@ -8,17 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		099A7E152814171400177E15 /* watchmysigningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E142814171400177E15 /* watchmysigningApp.swift */; };
-		099A7E172814171400177E15 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E162814171400177E15 /* ContentView.swift */; };
+		099A7E172814171400177E15 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E162814171400177E15 /* MainView.swift */; };
 		099A7E192814171800177E15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099A7E182814171800177E15 /* Assets.xcassets */; };
 		099A7E1C2814171800177E15 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099A7E1B2814171800177E15 /* Preview Assets.xcassets */; };
+		099A7E2428141B2700177E15 /* web3.swift in Frameworks */ = {isa = PBXBuildFile; productRef = 099A7E2328141B2700177E15 /* web3.swift */; };
+		099A7E26281427D300177E15 /* MyEthereumKeyStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E25281427D300177E15 /* MyEthereumKeyStorageProtocol.swift */; };
+		099A7E28281427FD00177E15 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E27281427FD00177E15 /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		099A7E112814171400177E15 /* watchmysigning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = watchmysigning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099A7E142814171400177E15 /* watchmysigningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchmysigningApp.swift; sourceTree = "<group>"; };
-		099A7E162814171400177E15 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		099A7E162814171400177E15 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		099A7E182814171800177E15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		099A7E1B2814171800177E15 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		099A7E25281427D300177E15 /* MyEthereumKeyStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEthereumKeyStorageProtocol.swift; sourceTree = "<group>"; };
+		099A7E27281427FD00177E15 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099A7E2428141B2700177E15 /* web3.swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +58,9 @@
 			isa = PBXGroup;
 			children = (
 				099A7E142814171400177E15 /* watchmysigningApp.swift */,
-				099A7E162814171400177E15 /* ContentView.swift */,
+				099A7E162814171400177E15 /* MainView.swift */,
+				099A7E27281427FD00177E15 /* MainViewModel.swift */,
+				099A7E25281427D300177E15 /* MyEthereumKeyStorageProtocol.swift */,
 				099A7E182814171800177E15 /* Assets.xcassets */,
 				099A7E1A2814171800177E15 /* Preview Content */,
 			);
@@ -83,6 +91,9 @@
 			dependencies = (
 			);
 			name = watchmysigning;
+			packageProductDependencies = (
+				099A7E2328141B2700177E15 /* web3.swift */,
+			);
 			productName = watchmysigning;
 			productReference = 099A7E112814171400177E15 /* watchmysigning.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +122,9 @@
 				Base,
 			);
 			mainGroup = 099A7E082814171400177E15;
+			packageReferences = (
+				099A7E2228141B2700177E15 /* XCRemoteSwiftPackageReference "web3" */,
+			);
 			productRefGroup = 099A7E122814171400177E15 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				099A7E172814171400177E15 /* ContentView.swift in Sources */,
+				099A7E172814171400177E15 /* MainView.swift in Sources */,
+				099A7E26281427D300177E15 /* MyEthereumKeyStorageProtocol.swift in Sources */,
 				099A7E152814171400177E15 /* watchmysigningApp.swift in Sources */,
+				099A7E28281427FD00177E15 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +355,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		099A7E2228141B2700177E15 /* XCRemoteSwiftPackageReference "web3" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argentlabs/web3.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		099A7E2328141B2700177E15 /* web3.swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 099A7E2228141B2700177E15 /* XCRemoteSwiftPackageReference "web3" */;
+			productName = web3.swift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 099A7E092814171400177E15 /* Project object */;
 }
