@@ -18,6 +18,13 @@ final class MainViewModel: ObservableObject {
         guard let clientUrl = URL(string: "https://kovan.optimism.io") else { return }
         let client = EthereumClient(url: clientUrl)
         guard let account = try? EthereumAccount(keyStorage: MyEthereumKeyStorageProtocol(privateKey: "SK")) else { return }
+        EthereumRPC.execute(session: URLSession(configuration: URLSession.shared.configuration), url: client.url, method: "eth_getBalance", params: [account.address.value, EthereumBlock.Latest.stringValue], receive: String.self) { (error, response) in
+            if let resString = response as? String, let balanceInt = BigUInt(hex: resString.web3.noHexPrefix) {
+                print("eth_getBalance1 \(balanceInt.convertToEther())")
+            } else {
+                print("eth_getBalance1 \(error?.localizedDescription)")
+            }
+        }
         selectedAddress = account.address.value
         let tx = EthereumTransaction(from: nil, to: EthereumAddress("TO"), value: BigUInt(1700000), data: nil, nonce: 3, gasPrice: BigUInt(50000000), gasLimit: BigUInt(500000), chainId: 69)
         var transactionHex: String?
