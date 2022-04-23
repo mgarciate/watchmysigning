@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "efqrcode",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EFPrefix/EFQRCode.git",
+      "state" : {
+        "revision" : "bebbd09eaf28243ec576f6d53cbf9cc5b10eaffb",
+        "version" : "6.2.1"
+      }
+    },
+    {
       "identity" : "generic-json-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zoul/generic-json-swift",
@@ -25,6 +34,15 @@
       "state" : {
         "revision" : "45e458ec3be46cf0a6eb68bc947f797852dc65d8",
         "version" : "0.1.6"
+      }
+    },
+    {
+      "identity" : "swift_qrcodejs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ApolloZhu/swift_qrcodejs.git",
+      "state" : {
+        "revision" : "374dc7f7b9e76c6aeb393f6a84590c6d387e1ecb",
+        "version" : "2.2.2"
       }
     },
     {

@@ -14,7 +14,7 @@ struct justatestApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
+                MainView()
             }
         }
 
