@@ -18,6 +18,10 @@
 		093A7E4928147D9C00593BE2 /* SignTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A7E4728147D9C00593BE2 /* SignTransactionViewModel.swift */; };
 		093A7E4C281480BB00593BE2 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = 093A7E4B281480BB00593BE2 /* EFQRCode */; };
 		093A7E4E2814846400593BE2 /* EFQRCode in Frameworks */ = {isa = PBXBuildFile; productRef = 093A7E4D2814846400593BE2 /* EFQRCode */; };
+		093A7E502814A00D00593BE2 /* ListenTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A7E4F2814A00D00593BE2 /* ListenTransactionView.swift */; };
+		093A7E532814A1D200593BE2 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 093A7E522814A1D200593BE2 /* CodeScanner */; };
+		093A7E562814AF7800593BE2 /* MyKeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A7E552814AF7800593BE2 /* MyKeyUtils.swift */; };
+		093A7E572814AF7800593BE2 /* MyKeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093A7E552814AF7800593BE2 /* MyKeyUtils.swift */; };
 		099A7E152814171400177E15 /* watchmysigningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E142814171400177E15 /* watchmysigningApp.swift */; };
 		099A7E172814171400177E15 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A7E162814171400177E15 /* MainView.swift */; };
 		099A7E192814171800177E15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099A7E182814171800177E15 /* Assets.xcassets */; };
@@ -85,6 +89,8 @@
 		093A7E432814771300593BE2 /* SignTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTransactionView.swift; sourceTree = "<group>"; };
 		093A7E4528147D2800593BE2 /* SignTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTransactionView.swift; sourceTree = "<group>"; };
 		093A7E4728147D9C00593BE2 /* SignTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTransactionViewModel.swift; sourceTree = "<group>"; };
+		093A7E4F2814A00D00593BE2 /* ListenTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenTransactionView.swift; sourceTree = "<group>"; };
+		093A7E552814AF7800593BE2 /* MyKeyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKeyUtils.swift; sourceTree = "<group>"; };
 		099A7E112814171400177E15 /* watchmysigning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = watchmysigning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099A7E142814171400177E15 /* watchmysigningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchmysigningApp.swift; sourceTree = "<group>"; };
 		099A7E162814171400177E15 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 			files = (
 				099A7E57281449E200177E15 /* web3.swift in Frameworks */,
 				093A7E4C281480BB00593BE2 /* EFQRCode in Frameworks */,
+				093A7E532814A1D200593BE2 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +151,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		093A7E542814AF5900593BE2 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				093A7E552814AF7800593BE2 /* MyKeyUtils.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		099A7E082814171400177E15 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +186,8 @@
 				099A7E142814171400177E15 /* watchmysigningApp.swift */,
 				099A7E162814171400177E15 /* MainView.swift */,
 				093A7E432814771300593BE2 /* SignTransactionView.swift */,
+				093A7E4F2814A00D00593BE2 /* ListenTransactionView.swift */,
+				093A7E542814AF5900593BE2 /* Shared */,
 				093A7E422814769100593BE2 /* ViewModels */,
 				093A7E3E2814738A00593BE2 /* Extensions */,
 				099A7E25281427D300177E15 /* MyEthereumKeyStorageProtocol.swift */,
@@ -249,6 +266,7 @@
 			packageProductDependencies = (
 				099A7E56281449E200177E15 /* web3.swift */,
 				093A7E4B281480BB00593BE2 /* EFQRCode */,
+				093A7E522814A1D200593BE2 /* CodeScanner */,
 			);
 			productName = watchmysigning;
 			productReference = 099A7E112814171400177E15 /* watchmysigning.app */;
@@ -325,6 +343,7 @@
 			packageReferences = (
 				099A7E55281449E200177E15 /* XCRemoteSwiftPackageReference "web3" */,
 				093A7E4A281480BB00593BE2 /* XCRemoteSwiftPackageReference "EFQRCode" */,
+				093A7E512814A1D200593BE2 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 099A7E122814171400177E15 /* Products */;
 			projectDirPath = "";
@@ -376,7 +395,9 @@
 				093A7E40281473A700593BE2 /* BigUInt+Ether.swift in Sources */,
 				099A7E152814171400177E15 /* watchmysigningApp.swift in Sources */,
 				093A7E442814771300593BE2 /* SignTransactionView.swift in Sources */,
+				093A7E562814AF7800593BE2 /* MyKeyUtils.swift in Sources */,
 				093A7E4828147D9C00593BE2 /* SignTransactionViewModel.swift in Sources */,
+				093A7E502814A00D00593BE2 /* ListenTransactionView.swift in Sources */,
 				099A7E28281427FD00177E15 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,6 +410,7 @@
 				093A7E4628147D2800593BE2 /* SignTransactionView.swift in Sources */,
 				099A7E3D28143A3500177E15 /* NotificationController.swift in Sources */,
 				099A7E3B28143A3500177E15 /* MainView.swift in Sources */,
+				093A7E572814AF7800593BE2 /* MyKeyUtils.swift in Sources */,
 				093A7E41281473A700593BE2 /* BigUInt+Ether.swift in Sources */,
 				099A7E4128143A3500177E15 /* ComplicationController.swift in Sources */,
 				093A7E4928147D9C00593BE2 /* SignTransactionViewModel.swift in Sources */,
@@ -539,6 +561,7 @@
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "QR Scanner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -568,6 +591,7 @@
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "QR Scanner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -752,6 +776,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		093A7E512814A1D200593BE2 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		099A7E55281449E200177E15 /* XCRemoteSwiftPackageReference "web3" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/argentlabs/web3.swift";
@@ -772,6 +804,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 093A7E4A281480BB00593BE2 /* XCRemoteSwiftPackageReference "EFQRCode" */;
 			productName = EFQRCode;
+		};
+		093A7E522814A1D200593BE2 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 093A7E512814A1D200593BE2 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
 		};
 		099A7E56281449E200177E15 /* web3.swift */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -22,7 +22,12 @@ struct MainView: View {
                     .padding()
                     .foregroundColor(.red)
                 NavigationLink("Sign") {
-                    SignTransactionView()
+                    SignTransactionView(address: viewModel.selectedAddress)
+                }
+                Spacer()
+                    .frame(height: 20)
+                NavigationLink("Listen") {
+                    ListenTransactionView()
                 }
             }
         }

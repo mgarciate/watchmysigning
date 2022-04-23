@@ -8,8 +8,13 @@
 import SwiftUI
 import EFQRCode
 
+enum SignTransactionSteps: Int {
+    case one = 1, two, three, four
+}
+
 final class SignTransactionViewModel: ObservableObject {
     @Published var qrImageData: CGImage?
+    @Published var step: SignTransactionSteps = .one
     
     init() {}
     
@@ -24,5 +29,11 @@ final class SignTransactionViewModel: ObservableObject {
             print("Create QRCode image failed!")
             qrImageData = nil
         }
+    }
+    
+    func moveNextStep() {
+        let nextStepInt = step.rawValue + 1
+        guard let nextStep = SignTransactionSteps(rawValue: nextStepInt) else { return }
+        step = nextStep
     }
 }

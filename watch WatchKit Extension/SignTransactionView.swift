@@ -14,17 +14,41 @@ struct SignTransactionView: View {
     
     var body: some View {
         VStack {
-            if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                Text("NO QR")
+            switch viewModel.step {
+            case .one:
+                Text("one")
+            case .two:
+                if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    Text("NO QR")
+                }
+            case .three:
+                Text("three")
+            case .four:
+                Text("four")
             }
         }
         .onAppear() {
             guard let address = address else { return }
             viewModel.generateQRCode(from: address)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.viewModel.moveNextStep()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.viewModel.moveNextStep()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.viewModel.moveNextStep()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            self.viewModel.moveNextStep()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.viewModel.moveNextStep()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
