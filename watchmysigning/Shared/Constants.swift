@@ -13,4 +13,5 @@ class Constants {
     static let secretKey = ""
     static let toAddress = ""
     static let fromAddress = ""
+    static let message = "ThisIsETHAmsterdam!"
 }
