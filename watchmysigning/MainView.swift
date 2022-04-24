@@ -14,23 +14,21 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text(viewModel.selectedAddress)
-                    .padding()
-                Text(viewModel.txHashSigned)
-                    .padding()
-                    .foregroundColor(.blue)
-                Text(viewModel.errorMessage)
-                    .padding()
-                    .foregroundColor(.red)
+                Spacer()
+                NavigationLink("Payments") {
+                    ListenTransactionView(type: .tx)
+                }
+                Spacer()
+                    .frame(height: 20.0)
+                NavigationLink("Sign messages") {
+                    ListenTransactionView(type: .message)
+                }
+                Spacer()
+                    .frame(height: 20.0)
                 NavigationLink("Sign") {
                     SignTransactionView(address: viewModel.selectedAddress)
                 }
-                NavigationLink("Start Listen Tx") {
-                    ListenTransactionView(type: .tx)
-                }
-                NavigationLink("Start Listen Message") {
-                    ListenTransactionView(type: .message)
-                }
+                Spacer()
             }
         }
         .onAppear() {
