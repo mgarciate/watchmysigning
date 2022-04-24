@@ -15,7 +15,6 @@ enum ListenTransactionType {
 struct ListenTransactionView: View {
     let type: ListenTransactionType
     @StateObject var viewModel = ListenTransactionViewModel()
-    @State private var isShowingScanner = false
     
     var body: some View {
         VStack {
@@ -23,19 +22,6 @@ struct ListenTransactionView: View {
             case .one:
                 Text("Scan QR address")
             case .two:
-                // Request transaction
-                if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                        .onTapGesture {
-                            viewModel.moveNextStep()
-                            isShowingScanner = true
-                        }
-                } else {
-                    Text("NO QR")
-                }
-            case .three:
                 switch type {
                 case .tx:
                     Text("Scan QR tx")
@@ -49,14 +35,16 @@ struct ListenTransactionView: View {
                     .foregroundColor(.red)
             }
         }
-        .sheet(isPresented: $isShowingScanner) {
+        .sheet(isPresented: $viewModel.isShowingScanner) {
             CodeScannerView(codeTypes: [.qr]) { result in
                 switch result {
                 case .success(let qr):
                     guard let qrData = qr.string.data(using: .utf8), let action = try? JSONDecoder().decode(SigningAction.self, from: qrData) else { return }
                     print(action)
-                    isShowingScanner = false
-                    viewModel.handleAction(action)
+                    viewModel.isShowingScanner = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.viewModel.handleAction(action)
+                    }
                 case .failure(let error):
                     print("Scanning failed: \(error.localizedDescription)")
                 }
@@ -64,7 +52,7 @@ struct ListenTransactionView: View {
         }
         .onAppear() {
             viewModel.type = type
-            isShowingScanner = true
+            viewModel.isShowingScanner = true
         }
     }
 }

@@ -20,12 +20,42 @@ final class SignTransactionViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var successMessage: String? = "Success"
     let client = EthereumClient(url:  URL(string: Constants.clientUrl)!)
+    var currentAction = SigningAction(type: .address)
     
-    init() {}
+    init() {
+        FirebaseServiceImpl().remove() { result in
+            switch result {
+            case .success: break
+            case .failure: break
+            }
+        }
+        FirebaseServiceImpl().currentAction { result in
+            switch result {
+            case .success(let action):
+                #if DEBUG
+                print("*** CURRENT DATA \(action.type)")
+                #endif
+                self.currentAction = action
+                switch action.type {
+                case.requestTx:
+                    self.step = .two
+                case.requestMessage:
+                    self.step = .three
+                case .address, .messageSigned, .txSigned:
+                    break
+                case .success:
+                    self.successMessage = "All good, success"
+                    self.step = .success
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     func createQR(action: SigningAction) {
         switch action.type {
-        case .address, .txSigned, .messageSigned: break
+        case .address, .txSigned, .messageSigned, .success: break
         case .requestTx:
             createTxQR(action: action)
         case .requestMessage:

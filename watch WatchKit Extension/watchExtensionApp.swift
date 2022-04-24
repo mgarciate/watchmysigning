@@ -6,11 +6,16 @@
 //
 
 import Foundation
-
 import SwiftUI
+import Firebase
 
 @main
-struct justatestApp: App {
+struct watchExtensionApp: App {
+    
+    init() {
+        FirebaseApp.configure()
+    }
+    
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {

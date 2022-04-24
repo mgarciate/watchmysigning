@@ -9,6 +9,7 @@ import SwiftUI
 import web3
 
 struct SignTransactionView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let address: String?
     @StateObject var viewModel = SignTransactionViewModel()
     
@@ -25,10 +26,16 @@ struct SignTransactionView: View {
                         Text("Creating QR")
                     }
                 case .two:
-                    Text("waiting for nonce, value, to, ...")
-                        .onTapGesture {
+                    VStack {
+                        Text("Transfer 0.0123 ETH?")
+                        Button("OK", role: .none) {
                             viewModel.createQR(action: SigningAction(type: .requestMessage, address: Constants.toAddress, message: Constants.message))
                         }
+                        Button("Cancel", role: .destructive) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                    .padding()
                 case .three:
                     if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
                         Image(uiImage: image)

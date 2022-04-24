@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct MainView: View {
     @StateObject var viewModel = MainViewModel()
@@ -31,6 +32,9 @@ struct MainView: View {
                     ListenTransactionView(type: .message)
                 }
             }
+        }
+        .onAppear() {
+            Auth.auth().signInAnonymously()
         }
     }
 }

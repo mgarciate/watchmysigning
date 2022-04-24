@@ -8,7 +8,7 @@
 import Foundation
 
 enum SigningActionType: String, Codable {
-    case address, requestTx, requestMessage, txSigned, messageSigned
+    case address, requestTx, requestMessage, txSigned, messageSigned, success
 }
 
 class SigningAction: Codable {
@@ -21,7 +21,6 @@ class SigningAction: Codable {
     init(type: SigningActionType,
          address: String? = nil,
          amount: Int? = nil,
-         to: String? = nil,
          nonce: Int? = nil,
          message: String? = nil) {
         self.type = type

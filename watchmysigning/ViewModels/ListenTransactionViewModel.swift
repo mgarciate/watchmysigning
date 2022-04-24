@@ -10,17 +10,27 @@ import web3
 import EFQRCode
 
 enum ListenTransactionSteps: Int {
-    case one = 1, two, three, success, error
+    case one = 1, two, success, error
 }
 
 final class ListenTransactionViewModel: ObservableObject {
-    @Published var qrImageData: CGImage?
     @Published var step: ListenTransactionSteps = .one
     @Published var nonce: Int?
     @Published var errorMessage: String?
     @Published var successMessage: String?
+    @Published var isShowingScanner = false
     let client = EthereumClient(url:  URL(string: Constants.clientUrl)!)
     var type: ListenTransactionType = .tx
+    let service = FirebaseServiceImpl()
+    
+    init() {
+        FirebaseServiceImpl().remove() { result in
+            switch result {
+            case .success: break
+            case .failure: break
+            }
+        }
+    }
     
     func moveNextStep() {
         DispatchQueue.main.async {
@@ -34,32 +44,38 @@ final class ListenTransactionViewModel: ObservableObject {
         print(action)
         switch action.type {
         case .address:
-            print("search nonce")
             switch type {
             case .tx:
+                print("search nonce")
                 client.eth_getTransactionCount(address: EthereumAddress(Constants.fromAddress), block: .Pending) { (error, count) in
                     guard let nonce = count else {
                         print("eth_getTransactionCount \(error)")
                         return
                     }
                     print(nonce)
-                    guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .requestTx, address: Constants.toAddress, amount: 1750000, nonce: nonce)) else { return }
-                    self.generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
+                    self.service.save(action: SigningAction(type: .requestTx, address: Constants.toAddress, amount: 1750000, nonce: nonce))
                     self.moveNextStep()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.isShowingScanner = true
+                    }
                 }
             case .message:
-                guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .requestMessage, address: Constants.toAddress, message: Constants.message)) else { return }
-                generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
+                self.service.save(action: SigningAction(type: .requestMessage, address: Constants.toAddress, message: Constants.message))
                 self.moveNextStep()
+                self.moveNextStep()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isShowingScanner = true
+                }
             }
             
-        case .requestTx, .requestMessage:
+        case .requestTx, .requestMessage, .success:
             break
         case .txSigned:
             print(action)
             guard let txSignedHex = action.message else { return }
             EthereumRPC.execute(session: URLSession(configuration: URLSession.shared.configuration), url: client.url, method: "eth_sendRawTransaction", params: [txSignedHex], receive: String.self) { (error, response) in
                 if let resDataString = response as? String {
+                    self.service.save(action: SigningAction(type: .success, message: "Transaction submited with Id: \(resDataString)"))
                     self.successMessage = "Transaction submited with Id: \(resDataString)"
                     self.step = .success
                 } else {
@@ -72,6 +88,7 @@ final class ListenTransactionViewModel: ObservableObject {
                 return
             }
             successMessage = "Message from address \(address.lowercased() == Constants.toAddress.lowercased())"
+            self.service.save(action: SigningAction(type: .success, message: "Message from address \(address.lowercased() == Constants.toAddress.lowercased())"))
             step = .success
         }
     }
@@ -79,19 +96,5 @@ final class ListenTransactionViewModel: ObservableObject {
     private func showError(message: String) {
         self.errorMessage = message
         self.step = .error
-    }
-    
-    private func generateQRCode(from string: String) {
-        DispatchQueue.main.async {
-            if let image = EFQRCode.generate(
-                for: string
-            ) {
-                print("Create QRCode image success \(image)")
-                self.qrImageData = image
-            } else {
-                print("Create QRCode image failed!")
-                self.qrImageData = nil
-            }
-        }
     }
 }
