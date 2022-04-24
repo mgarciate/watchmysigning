@@ -27,7 +27,7 @@ struct SignTransactionView: View {
                 case .two:
                     Text("waiting for nonce, value, to, ...")
                         .onTapGesture {
-                            viewModel.createTxQR()
+                            viewModel.createQR(action: SigningAction(type: .requestMessage, address: Constants.toAddress, message: Constants.message))
                         }
                 case .three:
                     if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {

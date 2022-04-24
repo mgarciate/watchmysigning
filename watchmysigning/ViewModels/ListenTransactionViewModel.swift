@@ -20,6 +20,7 @@ final class ListenTransactionViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var successMessage: String?
     let client = EthereumClient(url:  URL(string: Constants.clientUrl)!)
+    var type: ListenTransactionType = .tx
     
     func moveNextStep() {
         DispatchQueue.main.async {
@@ -34,16 +35,24 @@ final class ListenTransactionViewModel: ObservableObject {
         switch action.type {
         case .address:
             print("search nonce")
-            client.eth_getTransactionCount(address: EthereumAddress(Constants.fromAddress), block: .Pending) { (error, count) in
-                guard let nonce = count else {
-                    print("eth_getTransactionCount \(error)")
-                    return
+            switch type {
+            case .tx:
+                client.eth_getTransactionCount(address: EthereumAddress(Constants.fromAddress), block: .Pending) { (error, count) in
+                    guard let nonce = count else {
+                        print("eth_getTransactionCount \(error)")
+                        return
+                    }
+                    print(nonce)
+                    guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .requestTx, address: Constants.toAddress, amount: 1750000, nonce: nonce)) else { return }
+                    self.generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
+                    self.moveNextStep()
                 }
-                print(nonce)
-                guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .requestTx, address: Constants.toAddress, amount: 1750000, nonce: nonce)) else { return }
-                self.generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
+            case .message:
+                guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .requestMessage, address: Constants.toAddress, message: Constants.message)) else { return }
+                generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
                 self.moveNextStep()
             }
+            
         case .requestTx, .requestMessage:
             break
         case .txSigned:
@@ -58,7 +67,12 @@ final class ListenTransactionViewModel: ObservableObject {
                 }
             }
         case .messageSigned:
-            print("not implemented")
+            guard let message = action.message, let hexData = message.web3.hexData, let address = try? MyKeyUtils.recoverPublicKey(message: Constants.message.web3.keccak256, signature: hexData) else {
+                showError(message: "Problem with message \(action.message)")
+                return
+            }
+            successMessage = "Message from address \(address.lowercased() == Constants.toAddress.lowercased())"
+            step = .success
         }
     }
     

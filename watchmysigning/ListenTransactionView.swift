@@ -8,7 +8,12 @@
 import SwiftUI
 import CodeScanner
 
+enum ListenTransactionType {
+    case tx, message
+}
+
 struct ListenTransactionView: View {
+    let type: ListenTransactionType
     @StateObject var viewModel = ListenTransactionViewModel()
     @State private var isShowingScanner = false
     
@@ -31,7 +36,12 @@ struct ListenTransactionView: View {
                     Text("NO QR")
                 }
             case .three:
-                Text("Scan QR Tx")
+                switch type {
+                case .tx:
+                    Text("Scan QR tx")
+                case .message:
+                    Text("Scan QR message")
+                }
             case .success:
                 Text(viewModel.successMessage ?? "")
             case .error:
@@ -44,6 +54,7 @@ struct ListenTransactionView: View {
                 switch result {
                 case .success(let qr):
                     guard let qrData = qr.string.data(using: .utf8), let action = try? JSONDecoder().decode(SigningAction.self, from: qrData) else { return }
+                    print(action)
                     isShowingScanner = false
                     viewModel.handleAction(action)
                 case .failure(let error):
@@ -52,6 +63,7 @@ struct ListenTransactionView: View {
             }
         }
         .onAppear() {
+            viewModel.type = type
             isShowingScanner = true
         }
     }
@@ -59,6 +71,6 @@ struct ListenTransactionView: View {
 
 struct ListenTransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        ListenTransactionView()
+        ListenTransactionView(type: .tx)
     }
 }

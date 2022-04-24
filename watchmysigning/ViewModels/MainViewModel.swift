@@ -34,10 +34,10 @@ final class MainViewModel: ObservableObject {
             print("tx \(tx.data?.web3.hexString)")
             print("transactionHex \(transactionHex)")
             txHashSigned = transactionHex ?? "NO"
-            let dataSigned = try account.sign(message: "273648723672483647832")
+            let dataSigned = try account.sign(message: Constants.message)
             print("sign: \(dataSigned.web3.hexString)")
 //            print("check: \(try KeyUtil.recoverPublicKey(message: "Hello message!".web3.keccak256, signature: ""))")
-            print("check: \(try MyKeyUtils.recoverPublicKey(message: "273648723672483647832".web3.keccak256, signature: dataSigned))")
+            print("check: \(try MyKeyUtils.recoverPublicKey(message: Constants.message.web3.keccak256, signature: dataSigned.web3.hexString.web3.hexData!))")
         } catch {
             print("ERROR \(error)")
         }

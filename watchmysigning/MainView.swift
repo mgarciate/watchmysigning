@@ -24,10 +24,11 @@ struct MainView: View {
                 NavigationLink("Sign") {
                     SignTransactionView(address: viewModel.selectedAddress)
                 }
-                Spacer()
-                    .frame(height: 20)
-                NavigationLink("Listen") {
-                    ListenTransactionView()
+                NavigationLink("Start Listen Tx") {
+                    ListenTransactionView(type: .tx)
+                }
+                NavigationLink("Start Listen Message") {
+                    ListenTransactionView(type: .message)
                 }
             }
         }
