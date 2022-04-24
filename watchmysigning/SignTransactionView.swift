@@ -26,8 +26,11 @@ struct SignTransactionView: View {
                 }
             case .three:
                 Text("three")
-            case .four:
-                Text("four")
+            case .success:
+                Text(viewModel.successMessage ?? "")
+            case .error:
+                Text(viewModel.errorMessage ?? "")
+                    .foregroundColor(.red)
             }
             
         }

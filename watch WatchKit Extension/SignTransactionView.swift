@@ -13,42 +13,48 @@ struct SignTransactionView: View {
     @StateObject var viewModel = SignTransactionViewModel()
     
     var body: some View {
-        VStack {
-            switch viewModel.step {
-            case .one:
-                Text("one")
-            case .two:
-                if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    Text("NO QR")
+        ZStack {
+            VStack {
+                switch viewModel.step {
+                case .one:
+                    if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Text("Creating QR")
+                    }
+                case .two:
+                    Text("waiting for nonce, value, to, ...")
+                        .onTapGesture {
+                            viewModel.createTxQR()
+                        }
+                case .three:
+                    if let cgImage = viewModel.qrImageData, let image = UIImage(cgImage: cgImage) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .onTapGesture {
+                                viewModel.step = .success
+                            }
+                    } else {
+                        Text("Creating QR")
+                    }
+                case .success:
+                    Text(viewModel.successMessage ?? "")
+                case .error:
+                    Text(viewModel.errorMessage ?? "")
+                        .foregroundColor(.red)
                 }
-            case .three:
-                Text("three")
-            case .four:
-                Text("four")
+            }
+            .onTapGesture {
+                viewModel.moveNextStep()
             }
         }
         .onAppear() {
             guard let address = address else { return }
-            viewModel.generateQRCode(from: address)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.viewModel.moveNextStep()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.viewModel.moveNextStep()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.viewModel.moveNextStep()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            self.viewModel.moveNextStep()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                self.viewModel.moveNextStep()
-                            }
-                        }
-                    }
-                }
-            }
+            guard let jsonData = try? JSONEncoder().encode(SigningAction(type: .address, address: address)) else { return }
+            viewModel.generateQRCode(from: String(data: jsonData, encoding: .utf8)!)
         }
     }
 }
