@@ -15,18 +15,37 @@ struct MainView: View {
         NavigationView {
             VStack {
                 Spacer()
-                NavigationLink("Payments") {
-                    ListenTransactionView(type: .tx)
+                NavigationLink(destination: ListenTransactionView(type: .tx)) {
+                    VStack {
+                        Text("Payments")
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(4)
+                }
+                .frame(width: 150)
+                Spacer()
+                    .frame(height: 20.0)
+                NavigationLink(destination: ListenTransactionView(type: .message)) {
+                    VStack {
+                        Text("Sign messages")
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(4)
                 }
                 Spacer()
                     .frame(height: 20.0)
-                NavigationLink("Sign messages") {
-                    ListenTransactionView(type: .message)
-                }
-                Spacer()
-                    .frame(height: 20.0)
-                NavigationLink("Sign") {
-                    SignTransactionView(address: viewModel.selectedAddress)
+                NavigationLink(destination: SignTransactionView(address: viewModel.selectedAddress)) {
+                    VStack {
+                        Text("Send")
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(4)
                 }
                 Spacer()
             }
